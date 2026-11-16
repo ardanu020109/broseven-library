@@ -1,0 +1,61 @@
+/* BroSeven Library: halaman autentikasi */
+
+.auth-body { background: var(--bsl-white); }
+
+.auth-brand {
+    position: relative;
+    overflow: hidden;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem;
+    color: #fff;
+    background: linear-gradient(160deg, var(--bsl-crimson) 0%, var(--bsl-dark-red) 100%);
+}
+
+.auth-brand::before,
+.auth-brand::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(217, 198, 178, 0.12);
+}
+.auth-brand::before { width: 420px; height: 420px; top: -140px; right: -140px; }
+.auth-brand::after  { width: 300px; height: 300px; bottom: -110px; left: -90px; }
+
+.auth-brand-inner { position: relative; z-index: 1; max-width: 420px; }
+.auth-brand-icon  { font-size: 3.75rem; color: var(--bsl-beige); line-height: 1; }
+.auth-brand h1    { color: #fff; font-size: 2.25rem; margin: 1rem 0 0.5rem; }
+.auth-brand-tagline { color: var(--bsl-beige); font-size: 1.1rem; }
+
+.auth-brand-list { list-style: none; padding: 0; margin: 2rem 0 0; }
+.auth-brand-list li { display: flex; gap: 0.75rem; align-items: center; margin-bottom: 0.75rem; color: rgba(255, 255, 255, 0.92); }
+.auth-brand-list i { color: var(--bsl-beige); }
+
+.auth-main { background: var(--bsl-white); }
+.auth-panel { width: 100%; max-width: 440px; }
+.auth-panel-wide { max-width: 640px; }
+
+.auth-title { font-size: 1.6rem; color: var(--bsl-dark-red); margin-bottom: 0.25rem; }
+
+.auth-mobile-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 1.5rem;
+    color: var(--bsl-crimson);
+    font-weight: 700;
+    font-size: 1.25rem;
+}
+
+.auth-footer-link { color: var(--bsl-muted); font-size: 0.9rem; }
+.auth-footer-link a { color: var(--bsl-crimson); text-decoration: none; font-weight: 600; }
+.auth-footer-link a:hover { color: var(--bsl-dark-red); text-decoration: underline; }
+
+.input-group-text { background: var(--bsl-beige); border-color: #ccb9a5; color: var(--bsl-sienna); }
+
+.error-code {
+    font-size: 5rem;
+    font-weight: 800;
+    line-height: 1;
+    color: var(--bsl-crimson);
+}

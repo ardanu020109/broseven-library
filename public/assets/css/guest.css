@@ -1,0 +1,129 @@
+/* BroSeven Library: halaman publik (Guest) */
+
+body { background: var(--bsl-white); }
+
+/* ---------- Navbar & footer ---------- */
+.navbar-bsl .nav-link { padding-inline: 0.9rem; }
+.navbar-bsl .nav-link.active { color: #fff; box-shadow: inset 0 -3px 0 var(--bsl-beige); }
+
+.guest-footer { background: var(--bsl-dark-red); color: rgba(255, 255, 255, 0.85); }
+.guest-footer a { color: rgba(255, 255, 255, 0.85); text-decoration: none; }
+.guest-footer a:hover { color: var(--bsl-beige); text-decoration: underline; }
+.footer-heading { font-size: 1rem; color: var(--bsl-beige); margin-bottom: 1rem; }
+.footer-text { color: rgba(255, 255, 255, 0.75); font-size: 0.92rem; }
+.footer-links li { margin-bottom: 0.4rem; }
+.footer-contact li { display: flex; gap: 0.75rem; margin-bottom: 0.7rem; font-size: 0.92rem; }
+.footer-contact i { color: var(--bsl-beige); margin-top: 0.15rem; }
+.footer-bottom { background: rgba(0, 0, 0, 0.22); color: rgba(255, 255, 255, 0.7); }
+.social-links a {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 36px; height: 36px; border-radius: 50%;
+    background: rgba(255, 255, 255, 0.12); font-size: 1.05rem;
+}
+.social-links a:hover { background: var(--bsl-beige); color: var(--bsl-dark-red); text-decoration: none; }
+.info-card .social-links a { background: var(--bsl-beige); color: var(--bsl-dark-red); }
+.info-card .social-links a:hover { background: var(--bsl-crimson); color: #fff; }
+
+/* ---------- Hero ---------- */
+.hero { padding: 4.5rem 0 6.5rem; color: #fff; }
+.hero-eyebrow { text-transform: uppercase; letter-spacing: 0.12em; font-size: 0.8rem; color: var(--bsl-beige); }
+.hero-title { color: #fff; font-size: clamp(2rem, 5vw, 3.25rem); margin: 0.4rem 0 0.5rem; }
+.hero-tagline { font-size: 1.3rem; color: var(--bsl-beige); margin-bottom: 0.75rem; }
+.hero-desc { color: rgba(255, 255, 255, 0.88); max-width: 34rem; }
+.hero-search { display: flex; gap: 0.5rem; max-width: 32rem; margin-top: 1.5rem; }
+.hero-illustration { max-width: 100%; width: 460px; filter: drop-shadow(0 1rem 1.5rem rgba(0, 0, 0, 0.25)); }
+
+/* ---------- Statistik ---------- */
+.stats-strip { margin-top: -3.5rem; position: relative; z-index: 2; }
+.stat-card {
+    background: #fff; border-radius: var(--bsl-radius); box-shadow: var(--bsl-shadow-lg);
+    padding: 1.25rem 1rem; text-align: center; border-bottom: 4px solid var(--bsl-crimson);
+}
+.stat-icon { font-size: 1.6rem; color: var(--bsl-sienna); }
+.stat-value { font-size: 1.9rem; font-weight: 800; color: var(--bsl-dark-red); line-height: 1.1; }
+.stat-label { color: var(--bsl-muted); font-size: 0.9rem; }
+
+/* ---------- Section umum ---------- */
+.section { padding: 4rem 0; }
+.section-beige { background: var(--bsl-beige); }
+.section-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 1rem; margin-bottom: 1.75rem; flex-wrap: wrap; }
+.section-title { font-size: 1.7rem; margin-bottom: 0.25rem; }
+.section-sub { color: var(--bsl-muted); margin-bottom: 0; }
+.section-beige .section-sub { color: #5a4a3e; }
+
+.page-header { background: var(--bsl-beige); padding: 2.75rem 0; border-bottom: 4px solid var(--bsl-crimson); }
+.page-header h1 { margin: 0; font-size: 2rem; }
+.page-header p { margin: 0.25rem 0 0; color: #5a4a3e; }
+.page-header-sm { padding: 1rem 0; border-bottom-width: 2px; }
+.page-header-sm .breadcrumb a { color: var(--bsl-crimson); }
+
+.empty-state { text-align: center; color: var(--bsl-muted); padding: 2.5rem 1rem; }
+.empty-state i { font-size: 2.5rem; color: var(--bsl-sienna); display: block; margin-bottom: 0.5rem; }
+
+/* ---------- Kartu buku & blog ---------- */
+.book-card, .blog-card { overflow: hidden; transition: transform .15s ease, box-shadow .15s ease; }
+.book-card:hover, .blog-card:hover { transform: translateY(-4px); box-shadow: var(--bsl-shadow-lg); }
+
+.book-cover-wrap { display: block; aspect-ratio: 3 / 4; background: var(--bsl-beige); overflow: hidden; }
+.book-cover { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+.book-title a, .blog-title a { color: var(--bsl-text); text-decoration: none; }
+.book-title a:hover, .blog-title a:hover { color: var(--bsl-crimson); }
+.book-title, .blog-title {
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+    overflow: hidden; min-height: 2.8em; line-height: 1.4;
+}
+
+.badge-category {
+    display: inline-block; align-self: flex-start;
+    background: rgba(160, 82, 45, 0.14); color: var(--bsl-sienna);
+    font-size: 0.75rem; font-weight: 600; padding: 0.25em 0.65em; border-radius: 999px; text-decoration: none;
+}
+a.badge-category:hover { background: var(--bsl-sienna); color: #fff; }
+
+.blog-thumb { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; background: var(--bsl-beige); display: block; }
+
+/* ---------- Kategori ---------- */
+.category-card {
+    display: flex; flex-direction: column; align-items: flex-start; gap: 0.15rem;
+    padding: 1.1rem 1.2rem; background: #fff; border: 1px solid rgba(160, 82, 45, 0.25);
+    border-left: 5px solid var(--bsl-crimson); border-radius: var(--bsl-radius);
+    color: var(--bsl-text); text-decoration: none; transition: all .15s ease; height: 100%;
+}
+.category-card i { color: var(--bsl-sienna); font-size: 1.3rem; }
+.category-card:hover { background: var(--bsl-crimson); color: #fff; transform: translateY(-3px); box-shadow: var(--bsl-shadow-lg); }
+.category-card:hover i, .category-card:hover .category-count { color: var(--bsl-beige); }
+.category-name { font-weight: 700; }
+.category-count { font-size: 0.85rem; color: var(--bsl-muted); }
+
+/* ---------- Info & aturan ---------- */
+.info-card { background: #fff; border-radius: var(--bsl-radius); box-shadow: var(--bsl-shadow); padding: 1.4rem; border-top: 4px solid var(--bsl-sienna); }
+.info-card > i { font-size: 1.8rem; color: var(--bsl-crimson); }
+.info-card h3 { font-size: 1.05rem; margin: 0.6rem 0 0.4rem; color: var(--bsl-dark-red); }
+.info-card p { margin-bottom: 0.6rem; font-size: 0.95rem; }
+
+.rule-list { list-style: none; padding: 0; }
+.rule-list li { display: flex; gap: 0.6rem; margin-bottom: 0.6rem; }
+.rule-list i { color: var(--bsl-crimson); }
+
+/* ---------- Katalog ---------- */
+.filter-card { border-top: 4px solid var(--bsl-crimson); }
+.detail-cover { width: 100%; border-radius: var(--bsl-radius); box-shadow: var(--bsl-shadow-lg); aspect-ratio: 3 / 4; object-fit: cover; background: var(--bsl-beige); }
+.stock-box { background: rgba(217, 198, 178, 0.35); border-radius: var(--bsl-radius); padding: 1rem 1.25rem; max-width: 26rem; }
+.stock-num { font-size: 1.6rem; font-weight: 800; line-height: 1.1; }
+.stock-label { font-size: 0.8rem; color: var(--bsl-muted); }
+.detail-table th { width: 11rem; color: var(--bsl-sienna); font-weight: 600; white-space: nowrap; }
+
+/* ---------- Blog ---------- */
+.side-list li { display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; padding: 0.5rem 0; border-bottom: 1px solid rgba(160, 82, 45, 0.15); }
+.side-list li:last-child { border-bottom: 0; }
+.side-list a { color: var(--bsl-text); text-decoration: none; }
+.side-list a:hover { color: var(--bsl-crimson); }
+.article-image { width: 100%; border-radius: var(--bsl-radius); max-height: 420px; object-fit: cover; }
+.article-body { font-size: 1.05rem; line-height: 1.85; }
+.article-body p { margin-bottom: 1.25rem; }
+
+@media (max-width: 575.98px) {
+    .hero { padding: 3rem 0 5.5rem; }
+    .section { padding: 2.75rem 0; }
+}

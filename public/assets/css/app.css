@@ -1,0 +1,174 @@
+/* ==========================================================
+   BroSeven Library — Global Stylesheet
+   Palette: Crimson #B22234 | White #FFFFFF | Beige #D9C6B2
+            Sienna #A0522D  | Dark Red #8B0000
+   ========================================================== */
+
+:root {
+    /* Palette */
+    --bsl-crimson:  #B22234;
+    --bsl-white:    #FFFFFF;
+    --bsl-beige:    #D9C6B2;
+    --bsl-sienna:   #A0522D;
+    --bsl-dark-red: #8B0000;
+
+    /* Token desain */
+    --bsl-radius:    0.75rem;
+    --bsl-shadow:    0 0.25rem 1rem rgba(139, 0, 0, 0.08);
+    --bsl-shadow-lg: 0 0.75rem 2rem rgba(139, 0, 0, 0.14);
+    --bsl-text:      #2b2220;
+    --bsl-muted:     #6f625c;
+
+    /* Override variabel Bootstrap agar tidak biru default */
+    --bs-primary:            #B22234;
+    --bs-primary-rgb:        178, 34, 52;
+    --bs-danger:             #8B0000;
+    --bs-danger-rgb:         139, 0, 0;
+    --bs-link-color:         #B22234;
+    --bs-link-color-rgb:     178, 34, 52;
+    --bs-link-hover-color:   #8B0000;
+    --bs-link-hover-color-rgb: 139, 0, 0;
+    --bs-body-bg:            #FFFFFF;
+    --bs-body-color:         #2b2220;
+    --bs-border-radius:      0.5rem;
+    --bs-border-radius-lg:   var(--bsl-radius);
+    --bs-body-font-family:   "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+}
+
+body {
+    background-color: var(--bsl-white);
+    color: var(--bsl-text);
+    line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 { font-weight: 700; color: var(--bsl-dark-red); }
+
+/* ---------- Tombol ---------- */
+.btn-primary {
+    --bs-btn-color: #fff;
+    --bs-btn-bg: #B22234;
+    --bs-btn-border-color: #B22234;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #8B0000;
+    --bs-btn-hover-border-color: #8B0000;
+    --bs-btn-focus-shadow-rgb: 178, 34, 52;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #8B0000;
+    --bs-btn-active-border-color: #8B0000;
+    --bs-btn-disabled-color: #fff;
+    --bs-btn-disabled-bg: #B22234;
+    --bs-btn-disabled-border-color: #B22234;
+}
+
+.btn-outline-primary {
+    --bs-btn-color: #B22234;
+    --bs-btn-border-color: #B22234;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #B22234;
+    --bs-btn-hover-border-color: #B22234;
+    --bs-btn-focus-shadow-rgb: 178, 34, 52;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #8B0000;
+    --bs-btn-active-border-color: #8B0000;
+    --bs-btn-disabled-color: #B22234;
+    --bs-btn-disabled-border-color: #B22234;
+}
+
+.btn-danger {
+    --bs-btn-color: #fff;
+    --bs-btn-bg: #8B0000;
+    --bs-btn-border-color: #8B0000;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #6b0000;
+    --bs-btn-hover-border-color: #6b0000;
+    --bs-btn-active-bg: #6b0000;
+    --bs-btn-active-border-color: #6b0000;
+}
+
+.btn-accent {
+    --bs-btn-color: #fff;
+    --bs-btn-bg: #A0522D;
+    --bs-btn-border-color: #A0522D;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #84421f;
+    --bs-btn-hover-border-color: #84421f;
+    --bs-btn-active-bg: #84421f;
+    --bs-btn-active-border-color: #84421f;
+}
+
+/* ---------- Utilitas warna ---------- */
+.bg-crimson   { background-color: var(--bsl-crimson)  !important; color: #fff; }
+.bg-dark-red  { background-color: var(--bsl-dark-red) !important; color: #fff; }
+.bg-beige     { background-color: var(--bsl-beige)    !important; }
+.bg-sienna    { background-color: var(--bsl-sienna)   !important; color: #fff; }
+.text-crimson { color: var(--bsl-crimson)  !important; }
+.text-sienna  { color: var(--bsl-sienna)   !important; }
+.text-dark-red{ color: var(--bsl-dark-red) !important; }
+.border-crimson { border-color: var(--bsl-crimson) !important; }
+
+.bg-brand-gradient {
+    background: linear-gradient(160deg, var(--bsl-crimson) 0%, var(--bsl-dark-red) 100%);
+    color: #fff;
+}
+
+/* ---------- Card, form, tabel ---------- */
+.card {
+    border: 1px solid rgba(160, 82, 45, 0.15);
+    border-radius: var(--bsl-radius);
+    box-shadow: var(--bsl-shadow);
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--bsl-crimson);
+    box-shadow: 0 0 0 0.2rem rgba(178, 34, 52, 0.18);
+}
+
+.form-check-input:checked {
+    background-color: var(--bsl-crimson);
+    border-color: var(--bsl-crimson);
+}
+
+.table-bsl thead th {
+    background-color: var(--bsl-crimson);
+    color: #fff;
+    border-color: var(--bsl-dark-red);
+    font-weight: 600;
+    white-space: nowrap;
+}
+.table-bsl tbody tr:hover { background-color: rgba(217, 198, 178, 0.35); }
+
+.modal-content { border-radius: var(--bsl-radius); border: 0; box-shadow: var(--bsl-shadow-lg); }
+.modal-header  { border-bottom: 2px solid var(--bsl-beige); }
+
+.pagination .page-link { color: var(--bsl-crimson); }
+.pagination .page-item.active .page-link {
+    background-color: var(--bsl-crimson);
+    border-color: var(--bsl-crimson);
+    color: #fff;
+}
+
+/* ---------- Badge status (dipakai di tahap berikutnya) ---------- */
+.badge-status { font-weight: 600; padding: 0.4em 0.7em; border-radius: 999px; }
+.badge-available { background: #e6f4ea; color: #1e6b34; }
+.badge-borrowed  { background: rgba(160, 82, 45, .15); color: var(--bsl-sienna); }
+.badge-pending   { background: #fff3cd; color: #7a5b00; }
+.badge-overdue   { background: rgba(139, 0, 0, .12); color: var(--bsl-dark-red); }
+.badge-returned  { background: #e7f1ff; color: #1d4f91; }
+
+/* ---------- Navbar & komponen umum ---------- */
+.navbar-bsl {
+    background: linear-gradient(90deg, var(--bsl-crimson), var(--bsl-dark-red));
+}
+.navbar-bsl .navbar-brand,
+.navbar-bsl .nav-link { color: #fff; }
+.navbar-bsl .nav-link:hover { color: var(--bsl-beige); }
+
+.section-beige { background-color: var(--bsl-beige); }
+
+.swatch {
+    width: 100%;
+    height: 72px;
+    border-radius: var(--bsl-radius);
+    box-shadow: var(--bsl-shadow);
+}
