@@ -55,7 +55,7 @@ class GuestPagesTest extends TestCase
             ->assertSee('Artikel Terbaru')
             ->assertSee('Informasi Kontak')
             ->assertSee('Rp3.000')
-            ->assertViewHas('stats', fn (array $s) => $s['titles'] === 2 && $s['members'] === 3);
+            ->assertViewHas('stats', fn(array $s) => $s['titles'] === 2 && $s['members'] === 3);
     }
 
     public function test_home_page_works_without_any_data(): void
@@ -157,10 +157,10 @@ class GuestPagesTest extends TestCase
         $this->get('/katalog')
             ->assertOk()
             ->assertSee('page-link')
-            ->assertViewHas('books', fn ($books) => $books->count() === 12 && $books->total() === 13);
+            ->assertViewHas('books', fn($books) => $books->count() === 12 && $books->total() === 13);
 
         $this->get('/katalog?page=2')
-            ->assertViewHas('books', fn ($books) => $books->count() === 1);
+            ->assertViewHas('books', fn($books) => $books->count() === 1);
     }
 
     public function test_book_detail_shows_stock_and_login_cta_for_guests(): void
@@ -226,11 +226,11 @@ class GuestPagesTest extends TestCase
         Blog::factory()->create(['title' => 'Dua Tips', 'slug' => 'dua-tips', 'blog_category_id' => $tips->id]);
         Blog::factory()->create(['title' => 'Satu Berita', 'slug' => 'satu-berita', 'blog_category_id' => $news->id]);
 
-        $this->get('/blog?kategori=tips-uji')
-            ->assertSee('Satu Tips')->assertSee('Dua Tips')->assertDontSee('Satu Berita');
+        // Sidebar "Artikel Terbaru" selalu memuat semua artikel, jadi hasil filter diperiksa lewat data daftar.
+        $titles = fn($response) => $response->viewData('posts')->pluck('title')->sort()->values()->all();
 
-        $this->get('/blog?q=Berita')
-            ->assertSee('Satu Berita')->assertDontSee('Satu Tips');
+        $this->assertSame(['Dua Tips', 'Satu Tips'], $titles($this->get('/blog?kategori=tips-uji')->assertOk()));
+        $this->assertSame(['Satu Berita'], $titles($this->get('/blog?q=Berita')->assertOk()));
 
         $this->get('/blog/satu-tips')
             ->assertOk()
