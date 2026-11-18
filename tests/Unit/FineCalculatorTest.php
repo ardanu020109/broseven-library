@@ -54,7 +54,10 @@ class FineCalculatorTest extends TestCase
     public function test_decimal_rates_are_rounded_to_two_places(): void
     {
         $this->assertSame(3750.0, $this->calc('2026-11-10', '2026-11-13', '1250.00')['fine_amount']);
-        $this->assertSame(1.0, $this->calc('2026-11-10', '2026-11-13', 0.333)['fine_amount']);
+        $result = $this->calc('2026-11-10', '2026-11-13', 0.333);
+
+        $this->assertSame(0.33, $result['fine_per_day']);
+        $this->assertSame(0.99, $result['fine_amount']);
     }
 
     public function test_zero_rate_never_produces_a_fine(): void

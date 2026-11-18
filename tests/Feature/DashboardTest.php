@@ -71,19 +71,32 @@ class DashboardTest extends TestCase
 
         // Sudah dikembalikan dengan denda Rp4.000 (sudah dibayar Rp1.000).
         $done = $this->borrowing($members[1], $staff, $other, [
-            'status' => 'returned', 'borrow_date' => today()->subDays(5), 'due_date' => today()->subDays(2),
+            'status' => 'returned',
+            'borrow_date' => today()->subDays(5),
+            'due_date' => today()->subDays(2),
         ], 1, 1);
 
         $return = ReturnTransaction::create([
-            'code' => 'KMB-TEST-1', 'borrowing_id' => $done->id, 'return_date' => today(), 'processed_by' => $staff->id,
+            'code' => 'KMB-TEST-1',
+            'borrowing_id' => $done->id,
+            'return_date' => today(),
+            'processed_by' => $staff->id,
         ]);
         $returnItem = ReturnItem::create([
-            'return_id' => $return->id, 'borrowing_item_id' => $done->items()->first()->id, 'quantity' => 1,
-            'due_date' => today()->subDays(2), 'days_late' => 2, 'fine_per_day' => 2000, 'fine_amount' => 4000,
+            'return_id' => $return->id,
+            'borrowing_item_id' => $done->items()->first()->id,
+            'quantity' => 1,
+            'due_date' => today()->subDays(2),
+            'days_late' => 2,
+            'fine_per_day' => 2000,
+            'fine_amount' => 4000,
         ]);
         Fine::create([
-            'return_item_id' => $returnItem->id, 'member_id' => $members[1]->id,
-            'amount' => 4000, 'paid_amount' => 1000, 'status' => 'unpaid',
+            'return_item_id' => $returnItem->id,
+            'member_id' => $members[1]->id,
+            'amount' => 4000,
+            'paid_amount' => 1000,
+            'status' => 'unpaid',
         ]);
 
         $response = $this->actingAs($admin)->get('/super-admin/dashboard')->assertOk();
@@ -131,8 +144,8 @@ class DashboardTest extends TestCase
             ->assertSee('Total Penulis')
             ->assertSee('Total Penerbit')
             ->assertSee('Buku Stok Menipis')
-            ->assertViewHas('stats', fn (array $s) => $s['books'] === 2 && $s['low_stock'] === 1)
-            ->assertViewHas('lowStockBooks', fn ($books) => $books->pluck('title')->all() === ['Stok Tipis Uji']);
+            ->assertViewHas('stats', fn(array $s) => $s['books'] === 2 && $s['low_stock'] === 1)
+            ->assertViewHas('lowStockBooks', fn($books) => $books->pluck('title')->all() === ['Stok Tipis Uji']);
     }
 
     public function test_admin_karyawan_dashboard_counts_todays_work(): void
@@ -150,7 +163,7 @@ class DashboardTest extends TestCase
             ->assertOk()
             ->assertSee('Anggota Menunggu')
             ->assertSee('PJM-HARIINI')
-            ->assertViewHas('stats', fn (array $s) => $s['pending'] === 2 && $s['loans_today'] === 1 && $s['borrowed_books'] === 1);
+            ->assertViewHas('stats', fn(array $s) => $s['pending'] === 2 && $s['loans_today'] === 1 && $s['borrowed_books'] === 1);
     }
 
     public function test_member_dashboard_only_shows_own_data(): void
@@ -162,10 +175,16 @@ class DashboardTest extends TestCase
         $otherBook = Book::factory()->create(['title' => 'Buku Pinjaman Orang Lain']);
 
         $this->borrowing($mine, $staff, $book, [
-            'code' => 'PJM-MILIKKU', 'status' => 'borrowed', 'borrow_date' => today(), 'due_date' => today()->addDays(2),
+            'code' => 'PJM-MILIKKU',
+            'status' => 'borrowed',
+            'borrow_date' => today(),
+            'due_date' => today()->addDays(2),
         ], 2);
         $this->borrowing($theirs, $staff, $otherBook, [
-            'code' => 'PJM-MILIKNYA', 'status' => 'borrowed', 'borrow_date' => today(), 'due_date' => today()->addDays(2),
+            'code' => 'PJM-MILIKNYA',
+            'status' => 'borrowed',
+            'borrow_date' => today(),
+            'due_date' => today()->addDays(2),
         ], 3);
 
         $this->actingAs($mine)
@@ -175,7 +194,7 @@ class DashboardTest extends TestCase
             ->assertSee('Buku Pinjaman Saya')
             ->assertDontSee('PJM-MILIKNYA')
             ->assertDontSee('Buku Pinjaman Orang Lain')
-            ->assertViewHas('stats', fn (array $s) => $s['active_books'] === 2 && $s['history'] === 1 && $s['due_soon'] === 1 && $s['overdue'] === 0);
+            ->assertViewHas('stats', fn(array $s) => $s['active_books'] === 2 && $s['history'] === 1 && $s['due_soon'] === 1 && $s['overdue'] === 0);
     }
 
     public function test_member_dashboard_warns_about_overdue_loans_and_unpaid_fines(): void
@@ -185,13 +204,15 @@ class DashboardTest extends TestCase
         $book = Book::factory()->create();
 
         $this->borrowing($member, $staff, $book, [
-            'status' => 'overdue', 'borrow_date' => today()->subDays(14), 'due_date' => today()->subDays(3),
+            'status' => 'overdue',
+            'borrow_date' => today()->subDays(14),
+            'due_date' => today()->subDays(3),
         ]);
 
         $this->actingAs($member)
             ->get('/anggota/dashboard')
             ->assertSee('melewati jatuh tempo')
-            ->assertViewHas('stats', fn (array $s) => $s['overdue'] === 1);
+            ->assertViewHas('stats', fn(array $s) => $s['overdue'] === 1);
     }
 
     public function test_member_dashboard_works_without_membership_profile_or_transactions(): void
@@ -203,13 +224,16 @@ class DashboardTest extends TestCase
             ->assertSee('Anda belum pernah meminjam buku.');
     }
 
-    public function test_sidebar_enables_existing_pages_and_marks_unbuilt_modules_as_coming_soon(): void
+    public function test_sidebar_links_every_module_and_no_longer_shows_coming_soon(): void
     {
         $this->actingAs(User::factory()->superAdmin()->create())
             ->get('/super-admin/dashboard')
             ->assertSee('Panel Super Admin')
-            ->assertSee('Segera')
-            ->assertSee(route('super-admin.dashboard'), false);
+            ->assertDontSee('Segera')
+            ->assertSee(route('super-admin.dashboard'), false)
+            ->assertSee(route('super-admin.books.index'), false)
+            ->assertSee(route('super-admin.borrowings.index'), false)
+            ->assertSee(route('super-admin.reports.borrowings'), false);
     }
 
     public function test_menu_marks_current_dashboard_as_active_for_every_role(): void

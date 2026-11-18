@@ -17,7 +17,10 @@ class InstallCommandTest extends TestCase
     public function test_install_creates_the_first_super_admin_and_base_data(): void
     {
         $this->artisan('library:install', [
-            '--name' => 'Pemilik Perpustakaan', '--username' => 'Pemilik', '--email' => 'Pemilik@Example.test', '--password' => 'Rahasia123',
+            '--name' => 'Pemilik Perpustakaan',
+            '--username' => 'Pemilik',
+            '--email' => 'Pemilik@Example.test',
+            '--password' => 'Rahasia123',
         ])->assertExitCode(0);
 
         $user = User::where('username', 'pemilik')->firstOrFail();
@@ -67,7 +70,8 @@ class InstallCommandTest extends TestCase
     {
         $this->app['env'] = 'production';
 
-        $this->seed(DatabaseSeeder::class);
+        // db:seed menolak berjalan di production tanpa --force, jadi seeder dipanggil langsung.
+        (new DatabaseSeeder())->setContainer($this->app)->run();
 
         $this->assertSame(0, User::count());
         $this->assertSame(1, LibraryProfile::count());
