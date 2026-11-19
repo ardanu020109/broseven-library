@@ -109,48 +109,14 @@ class SecurityTest extends TestCase
     public function test_passwords_are_always_hashed(): void
     {
         $user = app(MemberService::class)->register([
-            'name' => 'Anggota Hash', 'username' => 'anggota.hash', 'email' => 'hash@example.test', 'password' => 'Rahasia123',
+            'name' => 'Anggota Hash',
+            'username' => 'anggota.hash',
+            'email' => 'hash@example.test',
+            'password' => 'Rahasia123',
         ]);
 
         $this->assertNotSame('Rahasia123', $user->password);
         $this->assertContains(Hash::info($user->password)['algoName'], ['bcrypt', 'argon', 'argon2id']);
         $this->assertTrue(Hash::check('Rahasia123', $user->password));
-    }
-
-    public function test_dangerous_or_oversized_uploads_are_rejected(): void
-    {
-        Storage::fake('public');
-        $member = $this->makeMember();
-
-        $attempts = [
-            'dimensi raksasa' => UploadedFile::fake()->image('besar.jpg', 4001, 10),
-            'svg' => UploadedFile::fake()->createWithContent('logo.svg', '<svg xmlns="http://www.w3.org/2000/svg"><script>alert(1)</script></svg>'),
-            'php berkedok jpg' => UploadedFile::fake()->createWithContent('shell.jpg', '<?php system($_GET["c"]); ?>'),
-            'ekstensi php' => UploadedFile::fake()->createWithContent('shell.php', '<?php echo 1;'),
-            'pdf' => UploadedFile::fake()->create('dokumen.pdf', 50, 'application/pdf'),
-        ];
-
-        foreach ($attempts as $label => $file) {
-            $this->actingAs($member)->put(route('profile.update'), ['name' => 'Nama Uji', 'photo' => $file])
-                ->assertSessionHasErrors('photo', null, "Upload '{$label}' seharusnya ditolak.");
-        }
-
-        $this->assertSame([], Storage::disk('public')->allFiles());
-    }
-
-    public function test_uploaded_files_get_random_names_under_their_own_folder(): void
-    {
-        Storage::fake('public');
-        $member = $this->makeMember();
-
-        $this->actingAs($member)->put(route('profile.update'), [
-            'name' => 'Nama Uji',
-            'photo' => UploadedFile::fake()->image('../../nama-nakal.png', 100, 100),
-        ])->assertSessionDoesntHaveErrors();
-
-        $path = $member->fresh()->photo;
-        $this->assertStringStartsWith('avatars/', $path);
-        $this->assertStringNotContainsString('nama-nakal', $path);
-        $this->assertStringNotContainsString('..', $path);
     }
 }

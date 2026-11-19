@@ -43,7 +43,7 @@ class InstallLibrary extends Command
 
         $validator = Validator::make($data, [
             'name' => ['required', 'string', 'max:100'],
-            'username' => ['required', 'string', 'min:3', 'max:30', 'alpha_dash:ascii', Rule::unique('users', 'username')],
+            'username' => ['required', 'string', 'min:3', 'max:30', 'regex:' . User::USERNAME_PATTERN, Rule::unique('users', 'username')],
             'email' => ['required', 'string', 'email:rfc', 'max:255', Rule::unique('users', 'email')],
             'password' => ['required', 'string', 'confirmed', PasswordRule::min(8)->letters()->mixedCase()->numbers()],
         ]);

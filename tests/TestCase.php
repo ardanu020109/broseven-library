@@ -8,40 +8,44 @@ use RuntimeException;
 
 abstract class TestCase extends BaseTestCase
 {
-    protected function setUp(): void
+    /**
+     * Diperiksa tepat setelah aplikasi dibuat dan SEBELUM trait seperti RefreshDatabase
+     * menjalankan migrasi, sehingga database asli tidak pernah tersentuh.
+     */
+    public function createApplication()
     {
-        // Diperiksa SEBELUM aplikasi dan migrasi berjalan, supaya database asli tidak pernah tersentuh.
-        $this->guardTestEnvironment();
+        $app = parent::createApplication();
 
-        parent::setUp();
-
-        // Proteksi CSRF diuji secara terpisah di browser; test HTTP tidak membawa token.
-        $this->withoutMiddleware(PreventRequestForgery::class);
-    }
-
-    private function guardTestEnvironment(): void
-    {
-        $read = static function (string $key): ?string {
-            $value = $_ENV[$key] ?? $_SERVER[$key] ?? getenv($key);
-
-            return is_string($value) ? $value : null;
-        };
-
+        $database = $app['config']->get('database.default');
         $problems = [];
 
-        if ($read('APP_ENV') !== 'testing') {
-            $problems[] = 'APP_ENV bernilai "' . ($read('APP_ENV') ?? '(kosong)') . '", seharusnya "testing"';
+        if ($app->configurationIsCached()) {
+            $problems[] = 'konfigurasi sedang di-cache (jalankan: php artisan config:clear)';
         }
 
-        if ($read('DB_CONNECTION') !== 'sqlite' || $read('DB_DATABASE') !== ':memory:') {
-            $problems[] = 'database bukan SQLite in-memory (DB_CONNECTION=' . ($read('DB_CONNECTION') ?? '-') . ', DB_DATABASE=' . ($read('DB_DATABASE') ?? '-') . ')';
+        if (! $app->environment('testing')) {
+            $problems[] = 'environment bernilai "' . $app->environment() . '", seharusnya "testing"';
+        }
+
+        if ($database !== 'sqlite' || $app['config']->get("database.connections.{$database}.database") !== ':memory:') {
+            $problems[] = "database yang dipakai \"{$database}\", seharusnya SQLite in-memory";
         }
 
         if ($problems !== []) {
             throw new RuntimeException(
                 'Test dihentikan demi keamanan data: ' . implode('; ', $problems)
-                . '. Periksa phpunit.xml dan variabel environment sistem (Get-ChildItem Env:).'
+                . '. Periksa phpunit.xml dan pastikan bootstrap\\cache\\config.php tidak ada.'
             );
         }
+
+        return $app;
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        // Proteksi CSRF dimatikan untuk test HTTP (test tidak membawa token).
+        $this->withoutMiddleware(PreventRequestForgery::class);
     }
 }

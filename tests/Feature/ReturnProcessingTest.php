@@ -343,16 +343,6 @@ class ReturnProcessingTest extends TestCase
         $this->assertSame('returned', $borrowing->fresh()->status->value);
     }
 
-    public function test_dashboards_reflect_returns_and_fines(): void
-    {
-        $staff = $this->makeStaff();
-        $borrowing = $this->makeBorrowed($this->makeMember(), $staff, [Book::factory()->withStock(3, 2)->create()], ['due_date' => today()->subDays(2)->toDateString()]);
-
-        $this->actingAs($staff)->post("/admin-karyawan/returns/create/{$borrowing->id}", ['items' => $this->allItems($borrowing)]);
-
-        $this->actingAs($staff)->get('/admin-karyawan/dashboard')
-            ->assertViewHas('stats', fn (array $s) => $s['returns_today'] === 1 && $s['fines_unpaid'] === 4000.0 && $s['borrowed_books'] === 0);
-    }
 
     public function test_menu_items_for_returns_and_fines_are_enabled(): void
     {

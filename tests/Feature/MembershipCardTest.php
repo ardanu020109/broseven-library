@@ -97,8 +97,12 @@ class MembershipCardTest extends TestCase
             ->assertDontSee('Anggota Lain')
             ->assertDontSee($theirs->memberProfile->member_number);
 
-        $this->actingAs($mine)->get("/anggota/membership-card/pdf?user={$theirs->id}&download=1")
-            ->assertHeader('content-disposition', 'attachment; filename="kartu-anggota-' . $mine->memberProfile->member_number . '.pdf"');
+        $response = $this->actingAs($mine)->get("/anggota/membership-card/pdf?user={$theirs->id}&download=1");
+        $disposition = (string) $response->headers->get('content-disposition');
+
+        $this->assertStringContainsString('attachment', $disposition);
+        $this->assertStringContainsString($mine->memberProfile->member_number, $disposition);
+        $this->assertStringNotContainsString($theirs->memberProfile->member_number, $disposition);
     }
 
     public function test_member_can_open_staff_card_routes_neither(): void
@@ -317,6 +321,7 @@ class MembershipCardTest extends TestCase
         $token = $member->memberProfile->card_token;
 
         $this->actingAs($this->makeStaff())->post('/anggota/membership-card/regenerate')->assertForbidden();
+        auth()->logout();
         $this->post('/anggota/membership-card/regenerate')->assertRedirect(route('login'));
 
         $this->assertSame($token, $member->fresh()->memberProfile->card_token);

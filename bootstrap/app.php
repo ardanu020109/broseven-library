@@ -19,18 +19,13 @@ return Application::configure(basePath: dirname(__DIR__))
             'role' => CheckRole::class,
             'active' => EnsureUserIsActive::class,
         ]);
-
-        // Tamu yang membuka halaman terlindungi diarahkan ke login.
         $middleware->redirectGuestsTo(fn(Request $request) => route('login'));
-
-        // Pengguna yang sudah login dan membuka halaman tamu (login/register)
-        // diarahkan ke dashboard sesuai rolenya.
         $middleware->redirectUsersTo(function (Request $request) {
             return route($request->user()->role->dashboardRoute());
         });
 
-        // Header keamanan dan pembatas laju untuk semua route web.
-        $middleware->web(append: [SecurityHeaders::class, 'throttle:web']);
+        $middleware->append(SecurityHeaders::class);
+        $middleware->web(append: ['throttle:web']);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
