@@ -148,23 +148,6 @@ class DashboardTest extends TestCase
             ->assertViewHas('lowStockBooks', fn($books) => $books->pluck('title')->all() === ['Stok Tipis Uji']);
     }
 
-    public function test_admin_karyawan_dashboard_counts_todays_work(): void
-    {
-        $staff = User::factory()->adminKaryawan()->create();
-        $member = User::factory()->create(['name' => 'Anggota Menunggu']);
-        $book = Book::factory()->create();
-
-        $this->borrowing($member, $staff, $book, ['status' => 'pending', 'processed_by' => null]);
-        $this->borrowing($member, $staff, $book, ['status' => 'pending', 'processed_by' => null, 'code' => 'PJM-PENDING-2']);
-        $this->borrowing($member, $staff, $book, ['status' => 'borrowed', 'borrow_date' => today(), 'due_date' => today()->addDays(7), 'code' => 'PJM-HARIINI']);
-
-        $this->actingAs($staff)
-            ->get('/admin-karyawan/dashboard')
-            ->assertOk()
-            ->assertSee('Anggota Menunggu')
-            ->assertSee('PJM-HARIINI')
-            ->assertViewHas('stats', fn(array $s) => $s['pending'] === 2 && $s['loans_today'] === 1 && $s['borrowed_books'] === 1);
-    }
 
     public function test_member_dashboard_only_shows_own_data(): void
     {

@@ -16,10 +16,7 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable, SoftDeletes;
 
-    /**
-     * "role" dan "is_active" sengaja TIDAK mass-assignable.
-     * Keduanya selalu diset eksplisit di kode (controller/seeder).
-     */
+    public const USERNAME_PATTERN = '/^[a-z0-9]+(?:[._-][a-z0-9]+)*$/';
     protected $fillable = [
         'name',
         'username',

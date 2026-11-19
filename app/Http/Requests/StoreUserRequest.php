@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Enums\Role;
+use App\Models\User;
 use App\Services\ImageUploader;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Str;
@@ -46,7 +47,7 @@ class StoreUserRequest extends FormRequest
 
         return [
             'name' => ['required', 'string', 'max:100'],
-            'username' => ['required', 'string', 'min:3', 'max:30', 'alpha_dash:ascii', Rule::unique('users', 'username')->ignore($id)],
+            'username' => ['required', 'string', 'min:3', 'max:30', 'regex:' . User::USERNAME_PATTERN, Rule::unique('users', 'username')->ignore($id)],
             'email' => ['required', 'string', 'email:rfc', 'max:255', Rule::unique('users', 'email')->ignore($id)],
             'phone' => ['nullable', 'string', 'regex:/^[0-9+\-\s]{8,20}$/'],
             'address' => ['nullable', 'string', 'max:500'],
@@ -75,6 +76,7 @@ class StoreUserRequest extends FormRequest
         return [
             'username.unique' => 'Username sudah dipakai (termasuk akun yang sudah dihapus).',
             'email.unique' => 'Email sudah dipakai (termasuk akun yang sudah dihapus).',
+            'username.regex' => 'Username hanya boleh berisi huruf kecil, angka, titik, strip, dan garis bawah (tidak boleh diawali, diakhiri, atau berurutan tanda baca).',
         ];
     }
 }

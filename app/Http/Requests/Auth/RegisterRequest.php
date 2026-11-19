@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -27,11 +28,18 @@ class RegisterRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:100'],
-            'username' => ['required', 'string', 'min:3', 'max:30', 'alpha_dash:ascii', Rule::unique('users', 'username')],
+            'username' => ['required', 'string', 'min:3', 'max:30', 'regex:' . User::USERNAME_PATTERN, Rule::unique('users', 'username')],
             'email' => ['required', 'string', 'email:rfc', 'max:255', Rule::unique('users', 'email')],
             'phone' => ['nullable', 'string', 'regex:/^[0-9+\-\s]{8,20}$/'],
             'address' => ['nullable', 'string', 'max:500'],
             'password' => ['required', 'string', 'confirmed', PasswordRule::min(8)->letters()->mixedCase()->numbers()],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'username.regex' => 'Username hanya boleh berisi huruf kecil, angka, titik, strip, dan garis bawah (tidak boleh diawali, diakhiri, atau berurutan tanda baca).',
         ];
     }
 }
